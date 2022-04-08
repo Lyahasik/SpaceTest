@@ -1,29 +1,34 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBarValue : MonoBehaviour
 {
     private Image _image;
-    
-    private int _hpValue = 100;
+
+    private DataShip _dataShip;
+    private int _currentHealth;
+
+    void OnEnable()
+    {
+        GameEventManager.OnUploadDataUI += UploadData;
+        GameEventManager.OnChangeHealth += ChangeHealth;
+    }
 
     private void Start()
     {
         _image = GetComponent<Image>();
     }
 
-    void OnEnable()
+    void UploadData(DataShip value)
     {
-        GameEventManager.OnChangeHealth += ChangeHealth;
+        _dataShip = value;
+        _currentHealth = _dataShip.MaxHealth;
     }
 
     void ChangeHealth(int value)
     {
-        _hpValue = Mathf.Clamp(_hpValue + value, 0, 100);
+        _currentHealth = Mathf.Clamp(_currentHealth + value, 0, _dataShip.MaxHealth);
 
-        _image.fillAmount = _hpValue * 0.01f;
-
-        if (_hpValue == 0) GameEventManager.SendKillPlayer();
+        _image.fillAmount = _currentHealth * 0.01f;
     }
 }

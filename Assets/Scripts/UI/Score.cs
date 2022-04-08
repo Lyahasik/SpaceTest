@@ -6,12 +6,6 @@ public class Score : MonoBehaviour
     private int _scoreValue;
     
     private Text _text;
-    void Start()
-    {
-        _text = GetComponent<Text>();
-
-        _text.text = "Score: " + _scoreValue;
-    }
 
     void OnEnable()
     {
@@ -19,10 +13,15 @@ public class Score : MonoBehaviour
         GameEventManager.OnGameOver += GameOver;
     }
     
+    void Start()
+    {
+        _text = GetComponent<Text>();
+        _text.text = "Score: " + _scoreValue;
+    }
+    
     void ChangeScore(int value)
     {
         _scoreValue += value;
-
         _text.text = "Score: " + _scoreValue;
     }
 

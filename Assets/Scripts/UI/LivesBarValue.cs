@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,25 +5,28 @@ public class LivesBarValue : MonoBehaviour
 {
     private Text _text;
 
-    private int _livesValue = 3;
-
-    void Start()
-    {
-        _text = GetComponent<Text>();
-        _text.text = "X" + _livesValue;
-    }
+    private DataShip _dataShip;
+    private int _currentLives;
 
     void OnEnable()
     {
+        GameEventManager.OnUploadDataUI += UploadData;
         GameEventManager.OnChangeLives += ChangeLives;
+    }
+
+    void UploadData(DataShip value)
+    {
+        _dataShip = value;
+        _currentLives = _dataShip.MaxLives;
+        
+        _text = GetComponent<Text>();
+        _text.text = "X" + _currentLives;
     }
     
     void ChangeLives(int value)
     {
-        _livesValue = Mathf.Clamp(_livesValue + value, 0, 3);
+        _currentLives = Mathf.Clamp(_currentLives + value, 0, _dataShip.MaxLives);
 
-        _text.text = "X" + _livesValue;
-        
-        if (_livesValue == 0) GameEventManager.SendGameOver();
+        _text.text = "X" + _currentLives;
     }
 }
