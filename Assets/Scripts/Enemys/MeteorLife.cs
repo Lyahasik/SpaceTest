@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 public class MeteorLife : MonoBehaviour, IEnemyLife
@@ -7,7 +8,8 @@ public class MeteorLife : MonoBehaviour, IEnemyLife
     private const int DAMAGE_MULTIPLIER = 10;
     private const int SCORE_MULTIPLIER = 10;
     
-    [SerializeField] private DataMeteor _dataMeteor;
+    [Inject] private DataMeteor[] _dataMeteors;
+    private DataMeteor _dataMeteor;
 
     private int _health;
 
@@ -20,6 +22,7 @@ public class MeteorLife : MonoBehaviour, IEnemyLife
 
     private void Start()
     {
+        _dataMeteor = _dataMeteors[Random.Range(0, _dataMeteors.Length)];
         _health = _dataMeteor.Health;
         
         transform.localScale = _dataMeteor.Scale;

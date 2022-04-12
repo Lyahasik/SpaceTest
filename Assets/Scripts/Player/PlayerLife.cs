@@ -1,10 +1,11 @@
 using UnityEngine;
 using Weapon;
+using Zenject;
 
 public class PlayerLife : MonoBehaviour
 {
-    [SerializeField] private DataShip _dataShip;
-    [SerializeField] private DataWeapon _dataWeapon;
+    [Inject] private DataShip _dataShip;
+    [Inject] private DataWeapon _dataWeapon;
 
     private PlayerWeapon _weapon;
 
